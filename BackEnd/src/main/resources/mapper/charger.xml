@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.charger.model.mapper.ChargerMapper">
+	
+	<select id="getCharger" resultType="chargerDto" parameterType="Map">
+		<![CDATA[select distinct ec.statId, ec.chgerType, ecs.statNm, ecs.addr, ecs.lat, ecs.lng
+		from electric_charing_station ecs join electric_charger ec on ecs.statId = ec.statId 
+		where (6371 * acos(cos(radians(ecs.lat)) * cos(radians(#{latitude})) * cos(radians(#{longitude}) - radians(ecs.lng)) + sin(radians(ecs.lat)) * sin(radians(#{latitude})))) < 2
+		]]>
+	</select>
+
+</mapper>

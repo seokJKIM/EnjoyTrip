@@ -1,0 +1,19 @@
+#table-box {
+    padding: 0;
+    height: 700px;
+}
+
+
+#board tr {
+    height: 50px;
+}
+
+h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.list-group {
+    margin-top: 100px;
+    width: 80%;
+}

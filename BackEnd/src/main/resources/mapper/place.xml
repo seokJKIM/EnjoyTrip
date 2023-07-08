@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.place.model.mapper.PlaceMapper">
+	
+	<resultMap type="sidoDto" id="sidoBasic">
+		<id column="sido_code" property="sidoCode"/>
+		<result column="sido_name" property="sidoName"/>
+	</resultMap>
+	
+	<resultMap type="gugunDto" id="gugunBasic">
+		<id column="gugun_code" property="gugunCode"/>
+		<result column="gugun_name" property="gugunName"/>
+	</resultMap>
+	
+	<resultMap type="place" id="placeBasic">
+		<id column="content_id" property="id"/>
+		<result column="content_type_id" property="type"/>
+		<result column="title" property="title"/>
+		<result column="addr1" property="addr1"/>
+		<result column="first_image" property="first_image"/>
+		<result column="sido_code" property="sidoCode"/>
+		<result column="overview" property="overview"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+	</resultMap>
+	
+	<select id="getSido" resultMap="sidoBasic">
+		select * from sido
+	</select>
+
+	<select id="getGugun" parameterType="int" resultMap="gugunBasic">
+		select gugun_code, gugun_name from gugun
+		where sido_code = #{sidoCode}
+	</select>
+	
+	<select id="searchPlace" resultType="place" parameterType="Map">
+		select i.content_id id, i.content_type_id type, i.title, i.addr1, i.first_image, i.sido_code sidoCode, d.overview, i.latitude, i.longitude 
+		from attraction_description as d join attraction_info as i on d.content_id = i.content_id 
+		where sido_code = #{sidoCode} and gugun_code = #{gugunCode} and i.content_type_id = #{type} and title like concat('%', #{keyword}, '%')
+		order by i.title
+	</select>
+	
+	<select id="getPlace" resultType="place" parameterType="int">
+		select i.content_id, i.content_type_id, i.title, i.addr1, i.first_image, i.sido_code, d.overview, i.latitude, i.longitude 
+		from attraction_description as d join attraction_info as i on d.content_id = i.content_id 
+		where i.content_id = ${id}
+	</select>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.comment.model.mapper.CommentMapper">
+	<resultMap type="Comment" id="commentBasic">
+		<id column="num" property="num" />
+		<result column="articleno" property="articleno" />
+		<result column="writerid" property="writerid" />
+		<result column="content" property="content" />
+		<result column="createtime" property="createtime" />
+	</resultMap>
+	
+	<select id="selectComment" parameterType="int"
+		resultMap="commentBasic">
+		select num, articleno, writerid, content, createtime
+		from comment
+		where articleno=#{articlenno}
+	</select>
+	
+	<insert id="insert" parameterType="Comment">
+		insert into
+		comment(articleno, writerid, content)
+		values(#{articleno}, #{writerid}, #{content})
+	</insert>
+	
+	<!-- 게시글 업데이트 -->
+	<update id="updateComment" parameterType="Comment">
+		update comment set content=#{content} where num=#{num}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteComment" parameterType="Comment">
+		delete from comment
+		where num=#{num}
+	</delete>
+</mapper>
